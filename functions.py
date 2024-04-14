@@ -22,7 +22,7 @@ def PlayTimeGenre(genero: str):
 
 def UserForGenre(genre: str):
     # Leer el archivo CSV
-    user_genre_data = pd.read_csv('genre_user.csv')
+    user_genre_data = pd.read_csv('datasets/genre_user.csv')
     
     # Filtrar el DataFrame por el género dado
     genre_data = user_genre_data[user_genre_data['genres'] == genre]

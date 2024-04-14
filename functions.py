@@ -45,7 +45,7 @@ def UserForGenre(genre: str):
     return result
 
 def UsersRecommend(año: int):
-    df = pd.read_csv('datasets/recommend.csv')
+    df = pd.read_csv('datasets/recomennd.csv')
     
     # Filtrar el DataFrame por el año especificado
     result_df = df[df['año'] == año]

@@ -31,10 +31,10 @@ def UserForGenre(genre: str):
     top_user = genre_data.loc[genre_data['horas'].idxmax(), 'user_id']
 
     # Calcular la suma de horas jugadas por año
-    hours_by_year = genre_data.groupby('año')['horas'].sum().reset_index()
+    horas_por_año = genre_data.groupby('año')['horas'].sum().reset_index()
     
     # Convertir el DataFrame a una lista de diccionarios
-    hours_list = hours_by_year.to_dict(orient='records')
+    hours_list = horas_por_año.to_dict(orient='records')
 
     # Crear el diccionario de retorno
     result = {
@@ -43,3 +43,15 @@ def UserForGenre(genre: str):
     }
 
     return result
+
+def UsersRecommend(año: int):
+    df = pd.read_csv('datasets/recommend.csv')
+    
+    # Filtrar el DataFrame por el año especificado
+    result_df = df[df['año'] == año]
+
+    response_data = [{"Puesto 1": result_df.iloc[0]['name']},
+                     {"Puesto 2": result_df.iloc[1]['name']},
+                     {"Puesto 3": result_df.iloc[2]['name']}]
+
+    return response_data

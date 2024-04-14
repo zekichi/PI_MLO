@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from functions import *
 import pandas as pd
 import traceback
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
@@ -62,3 +63,30 @@ async def endpoint2(genero: str):
     except Exception as e:
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Error interno del servidor: {str(e)}")
+    
+
+@app.get("/UsersRecommend/{año}", tags=['UsersRecommend'])
+async def endpoint3(año: str):
+    try:
+        año = int(año)
+    
+        if not (2000 <= año <= 2100):
+            error_message = f"El año debe estar en el rango entre 2000 y 2100."
+            return JSONResponse(status_code=400, content={"error": error_message})
+        
+        result = UsersRecommend(año)
+        return result
+
+    except ValueError:
+        error_message = "El año debe ser un número entero."
+        return JSONResponse(status_code=400, content={"error": error_message})
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request, exc):
+    return JSONResponse(status_code=exc.status_code, content={"error": exc.detail})
+
+@app.exception_handler(Exception)
+async def server_error_exception_handler(request, exc):
+    error_message = "Error interno del servidor."
+    return JSONResponse(status_code=500, content={"error": error_message})

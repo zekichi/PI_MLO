@@ -19,3 +19,27 @@ def PlayTimeGenre(genero: str):
 
     # Muestra el resultado
     return response
+
+def UserForGenre(genre: str):
+    # Leer el archivo CSV
+    user_genre_data = pd.read_csv('genre_user.csv')
+    
+    # Filtrar el DataFrame por el género dado
+    genre_data = user_genre_data[user_genre_data['genres'] == genre]
+
+    # Encontrar al usuario con más horas jugadas para ese género
+    top_user = genre_data.loc[genre_data['horas'].idxmax(), 'user_id']
+
+    # Calcular la suma de horas jugadas por año
+    hours_by_year = genre_data.groupby('año')['horas'].sum().reset_index()
+    
+    # Convertir el DataFrame a una lista de diccionarios
+    hours_list = hours_by_year.to_dict(orient='records')
+
+    # Crear el diccionario de retorno
+    result = {
+        f"Usuario con más horas jugadas para Género {genre}": top_user,
+        "Horas jugadas": hours_list
+    }
+
+    return result

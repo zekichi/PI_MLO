@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from functions import *
 import pandas as pd
+import traceback
 
 app = FastAPI()
 
@@ -37,4 +38,27 @@ async def endpoint1(genero: str):
     except FileNotFoundError as e:
         raise HTTPException(status_code=500, detail=f"Error al cargar el archivo año_genre.csv: {str(e)}")
     except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error interno del servidor: {str(e)}")
+    
+
+@app.get("/UserForGenre/{genero}", tags=['UserForGenre'])
+async def endpoint2(genero: str):
+    try:
+        # Validar el parámetro de género
+        if not genero or not genero.strip():
+            raise HTTPException(status_code=422, detail="El parámetro 'genero' no puede ser nulo o estar vacío.")
+
+        # Obtener los datos para el género dado
+        genre_data = UserForGenre(genero)
+        
+        # Validar si se encontraron datos para el género
+        if not genre_data:
+            raise HTTPException(status_code=404, detail=f"No se encontró información para el género '{genero}'.")
+
+        return genre_data
+    
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=500, detail=f"Error al cargar el archivo UserForGenre.csv: {str(e)}")
+    except Exception as e:
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Error interno del servidor: {str(e)}")

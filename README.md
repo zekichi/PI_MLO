@@ -9,7 +9,7 @@
 
 - ## **`Links`**
     - [API desplegada en Render](https://pi-mlo.onrender.com/docs)
-    - [Link al video]()
+    - [Link al video](https://www.loom.com/share/64928241529240eabb615c9d19ccb764?sid=ba2344a2-94d9-4864-a6ee-e9a06a57b53e)
 
 <hr>
 

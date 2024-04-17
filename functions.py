@@ -68,7 +68,7 @@ def UsersRecommend(año: int):
 #---- cuarto endpoint ----
 
 def UsersWorstDeveloper(año: int):
-    df = pd.read_csv('worst_developer.csv')
+    df = pd.read_csv('datasets/worst_developer.csv')
 
     # Filtrar el DataFrame por el año especificado
     result_df = df[df['año'] == año]
@@ -88,7 +88,7 @@ def UsersWorstDeveloper(año: int):
 #---- quinto endpoint ----
 
 def sentiment_analysis(empresa_desarrolladora: str):
-    df = pd.read_csv('sentiment_analysis.csv')
+    df = pd.read_csv('datasets/sentiment_analysis.csv')
 
     # Filtrar por la empresa desarrolladora
     result_df = df[df['developer'] == empresa_desarrolladora]
@@ -105,7 +105,7 @@ def sentiment_analysis(empresa_desarrolladora: str):
 #---- modelo endpoint ----
 
 def recomendacion_usuario(item_id):
-    df = pd.read_csv('model_recommend.csv')
+    df = pd.read_csv('datasets/model_recommend.csv')
     
     # Filtrar el DataFrame por el item_id especificado
     result_df = df[df['item_id'] == item_id]

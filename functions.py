@@ -1,6 +1,7 @@
 import pandas as pd
 
 
+#---- primer endpoint ----
 
 def PlayTimeGenre(genero: str):
     df = pd.read_csv('datasets/año_genres.csv')
@@ -19,6 +20,9 @@ def PlayTimeGenre(genero: str):
 
     # Muestra el resultado
     return response
+
+
+#---- segundo endpoint ----
 
 def UserForGenre(genre: str):
     # Leer el archivo CSV
@@ -44,6 +48,10 @@ def UserForGenre(genre: str):
 
     return result
 
+
+#---- tercer endpoint ----
+
+
 def UsersRecommend(año: int):
     df = pd.read_csv('datasets/recomennd.csv')
     
@@ -55,3 +63,57 @@ def UsersRecommend(año: int):
                      {"Puesto 3": result_df.iloc[2]['name']}]
 
     return response_data
+
+
+#---- cuarto endpoint ----
+
+def UsersWorstDeveloper(año: int):
+    df = pd.read_csv('worst_developer.csv')
+
+    # Filtrar el DataFrame por el año especificado
+    result_df = df[df['año'] == año]
+
+    if result_df.empty:
+        return "No hay datos disponibles para el año especificado."
+
+    # Ordenar por rendimiento y seleccionar los tres peores
+    result_df = result_df.nsmallest(3, 'performance')
+
+    # Construir la respuesta
+    response_data = [{"Puesto {}: ".format(i+1): developer} for i, developer in enumerate(result_df['developer'])]
+
+    return response_data
+
+
+#---- quinto endpoint ----
+
+def sentiment_analysis(empresa_desarrolladora: str):
+    df = pd.read_csv('sentiment_analysis.csv')
+
+    # Filtrar por la empresa desarrolladora
+    result_df = df[df['developer'] == empresa_desarrolladora]
+
+    if result_df.empty:
+        return {"message": f"No hay datos disponibles para la empresa desarrolladora '{empresa_desarrolladora}'."}
+
+    # Seleccionar columnas relevantes y convertir a diccionario
+    response_data = result_df[['Negative', 'Neutral', 'Positive']].to_dict(orient='records')[0]
+    
+    return {empresa_desarrolladora: response_data}
+
+
+#---- modelo endpoint ----
+
+def recomendacion_usuario(item_id):
+    df = pd.read_csv('model_recommend.csv')
+    
+    # Filtrar el DataFrame por el item_id especificado
+    result_df = df[df['item_id'] == item_id]
+    
+    if result_df.empty:
+        return {"message": f"No se encontraron recomendaciones para el item con ID {item_id}."}
+    
+    # Obtener las recomendaciones como una lista de strings
+    recomendaciones = result_df['Recomendaciones'].tolist()
+ 
+    return {"recomendaciones": recomendaciones}

@@ -1,6 +1,0 @@
-venv/
-/datasets/steam_genres.csv
-/datasets/user_reviews.csv
-/datasets/user_reviews.parquet
-/datasets/users_items.parquet
-data/
